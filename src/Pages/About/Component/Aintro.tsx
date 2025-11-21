@@ -150,6 +150,8 @@ function Aintro() {
         </div>
       </section>
 
+      {/* Brand Gallery removed per request */}
+
       {/* Features Section */}
       <section className="py-20 bg-white/60 backdrop-blur-sm border-t border-amber-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">

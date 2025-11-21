@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer ref={footerRef} className="bg-gradient-to-br from-amber-900 via-amber-800 to-amber-950 text-amber-50">
+    <footer ref={footerRef} className="relative bg-gradient-to-br from-amber-950 via-amber-900 to-amber-950 text-amber-50">
       <div className="absolute w-full h-20 -mt-20 overflow-hidden">
         {[...Array(8)].map((_, i) => (
           <div 
@@ -141,16 +141,14 @@ const Footer: React.FC = () => {
 
           <div ref={el => columnsRef.current[1] = el} className="text-center md:text-left">
             <h3 className="text-lg font-semibold text-amber-200 mb-4">Quick Links</h3>
-            <div className="grid grid-cols-1 gap-3">
+            <nav className="grid grid-cols-1 gap-3" aria-label="Footer navigation">
               {navigationLinks.map((link, index) => (
-                <span key={index} className="text-amber-100 hover:text-amber-300 transition duration-300 group cursor-pointer">
-                  <span className="group-hover:pl-2 transition-all duration-300 flex items-center justify-center md:justify-start">
-                    <span className="w-2 h-2 bg-amber-500 rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    {link}
-                  </span>
-                </span>
+                <a key={index} href="#" className="text-amber-100 hover:text-amber-300 transition duration-300 group inline-flex items-center justify-center md:justify-start focus:outline-none focus:ring-2 focus:ring-amber-400/50 rounded">
+                  <span className="w-2 h-2 bg-amber-500 rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  {link}
+                </a>
               ))}
-            </div>
+            </nav>
           </div>
 
           <div ref={el => columnsRef.current[2] = el} className="text-center">
@@ -179,7 +177,7 @@ const Footer: React.FC = () => {
                   key={index}
                   href="#"
                   aria-label={social.label}
-                  className="bg-amber-700 hover:bg-amber-600 text-amber-100 p-3 rounded-full transition-all duration-300 transform hover:-translate-y-2 hover:scale-110 shadow-lg hover:shadow-amber-900/30"
+                  className="bg-amber-700 hover:bg-amber-600 text-amber-100 p-3 rounded-full transition-all duration-300 transform hover:-translate-y-2 hover:scale-110 shadow-lg hover:shadow-amber-900/30 focus:outline-none focus:ring-2 focus:ring-amber-400/60"
                 >
                   <span className="text-xl">{social.icon}</span>
                 </a>
@@ -194,7 +192,16 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-14 pt-6 border-t border-amber-700/50">
+        {/* Trust Row */}
+        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[ 'Organic Certified', 'FSSAI Approved', 'Sustainable Farming', 'ISO 22000' ].map((item, i) => (
+            <div key={i} className="text-center text-amber-200/90 text-sm bg-amber-900/40 border border-amber-700/40 rounded-xl py-3">
+              {item}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-12 pt-6 border-t border-amber-700/50">
           <p ref={copyrightRef} className="text-center text-amber-300/80 text-sm">
             © {currentYear} Anand Agro Industry. All rights reserved.
             <span className="block mt-1 text-xs">

@@ -1,5 +1,6 @@
 import express from 'express';
-import { signup, login } from '../controllers/authController.js';
+import { signup, login, getProfile, updateProfile, changePassword } from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
 import { body, validationResult } from 'express-validator';
 
 const router = express.Router();
@@ -30,7 +31,37 @@ const validateLogin = [
   }
 ];
 
+const validateProfileUpdate = [
+  body('name').optional().notEmpty().withMessage('Name cannot be empty'),
+  body('email').optional().isEmail().withMessage('Valid email is required'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array()[0].msg });
+    }
+    next();
+  }
+];
+
+const validatePasswordChange = [
+  body('currentPassword').notEmpty().withMessage('Current password is required'),
+  body('newPassword').isLength({ min: 8 }).withMessage('New password must be at least 8 characters'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array()[0].msg });
+    }
+    next();
+  }
+];
+
+// Public routes
 router.post('/signup', validateSignup, signup);
 router.post('/login', validateLogin, login);
+
+// Protected routes
+router.get('/profile', protect, getProfile);
+router.put('/profile', protect, validateProfileUpdate, updateProfile);
+router.put('/change-password', protect, validatePasswordChange, changePassword);
 
 export default router; 

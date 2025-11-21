@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Correct Swiper CSS Imports
 import 'swiper/css';
@@ -8,7 +10,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
-import { ArrowDown, MapPin, Calendar, Leaf, Award, Heart, Star } from 'lucide-react';
+import { ArrowDown, MapPin, Calendar, Leaf, Award, Heart, Star, Sparkles, TrendingUp, Shield } from 'lucide-react';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
 import Logo from '../Assets/583903df-eb46-4f94-b7b3-525d701ab3e2-removebg-preview.png';
 import Product1 from '../Assets/istockphoto-2150007871-612x612.webp';
@@ -52,10 +57,49 @@ const Intro: React.FC = () => {
   ];
 
   const nextSectionRef = useRef<HTMLDivElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLDivElement | null>(null);
+  const descriptionRef = useRef<HTMLDivElement | null>(null);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
+  const imageRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    setIsVisible(true);
+    
+    // GSAP Animations
+    const tl = gsap.timeline();
+    
+    if (heroRef.current && titleRef.current && descriptionRef.current && ctaRef.current && imageRef.current) {
+      // Initial setup
+      gsap.set([titleRef.current, descriptionRef.current, ctaRef.current, imageRef.current], {
+        opacity: 0,
+        y: 50
+      });
+      
+      // Animate elements in sequence
+      tl.to(titleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out"
+      })
+      .to(descriptionRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      }, "-=0.5")
+      .to(ctaRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      }, "-=0.3")
+      .to(imageRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power3.out"
+      }, "-=0.8");
+    }
   }, []);
 
   const scrollToNextSection = () => {
@@ -79,138 +123,179 @@ const Intro: React.FC = () => {
   }, [currentIndex, fullText]);
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden bg-gradient-to-b from-white to-[#f0f8f0]">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjAuNSIgZmlsbD0iI2U0ZjdlMyIgZmlsbC1vcGFjaXR5PSIwLjAzIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+')] opacity-10"></div>
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-amber-50">
+      {/* Professional background pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgNDUpIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSIjZjVmMGY2IiBmaWxsLW9wYWNpdHk9IjAuMDMiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dGVybikiLz48L3N2Zz4=')] opacity-30"></div>
       
-      {/* Floating elements */}
-      <div className="absolute top-20 left-10 w-16 h-16 rounded-full bg-[#e8f5e9]/40 blur-xl animate-float"></div>
-      <div className="absolute bottom-1/4 right-20 w-24 h-24 rounded-full bg-[#f5f0e6]/40 blur-xl animate-float animation-delay-2000"></div>
-      <div className="absolute top-1/3 left-1/4 w-20 h-20 rounded-full bg-[#e8f5e9]/40 blur-xl animate-float animation-delay-3000"></div>
+      {/* Subtle floating elements */}
+      <div className="absolute top-16 left-8 w-16 h-16 rounded-full bg-gradient-to-br from-amber-100/40 to-orange-100/40 backdrop-blur-sm border border-white/30 animate-float shadow-sm"></div>
+      <div className="absolute bottom-1/3 right-16 w-20 h-20 rounded-full bg-gradient-to-br from-emerald-100/40 to-green-100/40 backdrop-blur-sm border border-white/30 animate-float animation-delay-2000 shadow-sm"></div>
+      <div className="absolute top-1/2 left-1/3 w-12 h-12 rounded-full bg-gradient-to-br from-yellow-100/40 to-amber-100/40 backdrop-blur-sm border border-white/30 animate-float animation-delay-3000 shadow-sm"></div>
+      
+      {/* Professional gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-amber-50/20"></div>
       
       {/* Hero Section */}
-      <section className={`flex-1 flex items-center justify-center px-4 py-12 relative z-10 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <div className="bg-gradient-to-r from-[#2e7d32] to-[#1b5e20] inline-block p-1 rounded-lg mb-4 transform transition-all duration-300 hover:scale-105">
-              <div className="bg-white backdrop-blur px-4 py-2 rounded-md text-[#1b5e20] font-medium flex items-center gap-2">
-                <Leaf className="w-5 h-5" /> 100% Organic & Natural
+      <section ref={heroRef} className="flex-1 flex items-center justify-center px-6 py-16 relative z-10">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+          <div className="space-y-12">
+            {/* Professional badge */}
+            <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-emerald-200/50 rounded-full px-6 py-3 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                <Leaf className="w-4 h-4 text-emerald-600" />
+                <span className="text-emerald-700 font-medium text-sm">100% Organic & Natural</span>
+              </div>
+              <Sparkles className="w-4 h-4 text-amber-500" />
+            </div>
+
+            {/* Professional title with improved typography */}
+            <div ref={titleRef} className="space-y-6">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight">
+                <span className="text-slate-900">Anand Agro</span>
+                <span className="block mt-3 text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-500 to-red-500">
+                  Industry
+                </span>
+              </h1>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 text-slate-600">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-emerald-600" />
+                  <span className="text-sm font-semibold">Premium Quality</span>
+                </div>
+                <div className="hidden sm:block w-1 h-1 bg-slate-400 rounded-full"></div>
+                <div className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-blue-600" />
+                  <span className="text-sm font-semibold">Trusted Brand</span>
+                </div>
               </div>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1b5e20] leading-tight">
-              Anand Agro
-              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-[#8d6e63] to-[#5d4037]">
-                Industry
-              </span>
-            </h1>
-
-            <div className="h-24">
-              <p className="text-lg text-[#2e7d32] max-w-2xl">
+            {/* Professional description */}
+            <div ref={descriptionRef} className="h-28">
+              <p className="text-xl text-slate-600 max-w-2xl leading-relaxed font-medium">
                 {typedText}
-                <span className="ml-1 inline-block w-1 h-6 bg-[#2e7d32] align-middle animate-pulse"></span>
+                <span className="ml-1 inline-block w-1 h-6 bg-gradient-to-b from-amber-500 to-orange-500 align-middle animate-pulse"></span>
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-start gap-3 p-4 bg-white backdrop-blur-sm rounded-xl border border-[#e8f5e9] shadow-sm transform transition-all duration-300 hover:-translate-y-1">
-                <div className="bg-[#e8f5e9] p-3 rounded-lg">
-                  <Award className="w-6 h-6 text-[#2e7d32]" />
+            {/* Professional feature cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="group flex items-start gap-4 p-6 bg-white/90 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-sm hover:shadow-md transform transition-all duration-300 hover:-translate-y-1">
+                <div className="bg-gradient-to-br from-emerald-500 to-green-600 p-3 rounded-lg shadow-sm group-hover:scale-105 transition-transform duration-300">
+                  <Award className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#1b5e20]">Traditional Methods</h3>
-                  <p className="text-[#2e7d32] text-sm mt-1">Preserving authentic techniques for superior quality</p>
+                  <h3 className="font-semibold text-slate-800 text-lg mb-2">Traditional Methods</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">Preserving authentic techniques for superior quality and authentic taste</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-4 bg-white backdrop-blur-sm rounded-xl border border-[#e8f5e9] shadow-sm transform transition-all duration-300 hover:-translate-y-1">
-                <div className="bg-[#e8f5e9] p-3 rounded-lg">
-                  <Calendar className="w-6 h-6 text-[#2e7d32]" />
+              <div className="group flex items-start gap-4 p-6 bg-white/90 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-sm hover:shadow-md transform transition-all duration-300 hover:-translate-y-1">
+                <div className="bg-gradient-to-br from-amber-500 to-orange-600 p-3 rounded-lg shadow-sm group-hover:scale-105 transition-transform duration-300">
+                  <Calendar className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#1b5e20]">Est. 2023</h3>
-                  <p className="text-[#2e7d32] text-sm mt-1">Committed to purity and sustainability</p>
+                  <h3 className="font-semibold text-slate-800 text-lg mb-2">Est. 2023</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">Committed to purity, sustainability, and excellence</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            {/* Professional CTA buttons */}
+            <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={scrollToNextSection}
-                className="group relative overflow-hidden bg-gradient-to-r from-[#8d6e63] to-[#5d4037] text-white px-8 py-4 rounded-full text-lg font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                className="group relative overflow-hidden bg-gradient-to-r from-amber-600 via-orange-500 to-red-500 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3"
               >
-                <span className="relative z-10 flex items-center gap-2">
+                <span className="relative z-10 flex items-center gap-3">
                   Explore Our Products
                   <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-300" />
                 </span>
-                <span className="absolute inset-0 bg-gradient-to-r from-[#6d4c41] to-[#4e342e] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <span className="absolute inset-0 bg-gradient-to-r from-amber-700 via-orange-600 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               </button>
 
               <a
                 href="https://maps.app.goo.gl/tdQdTsaQmgrtfCws7?g_st=iw"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-5 py-3 bg-white backdrop-blur rounded-full border border-[#e8f5e9] hover:shadow-md hover:scale-105 transition-all duration-300 animate-float shadow-sm"
+                className="group flex items-center gap-3 px-6 py-4 bg-white/90 backdrop-blur-sm rounded-xl border border-slate-200/50 hover:shadow-lg hover:scale-105 transition-all duration-300 shadow-sm"
               >
-                <MapPin className="w-5 h-5 text-[#2e7d32]" />
-                <span className="text-[#1b5e20] font-medium">Nashik, Maharashtra</span>
+                <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-2 rounded-lg group-hover:scale-105 transition-transform duration-300">
+                  <MapPin className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="text-slate-800 font-semibold block">Nashik, Maharashtra</span>
+                  <span className="text-slate-600 text-sm">Visit Our Location</span>
+                </div>
               </a>
             </div>
           </div>
 
-          {/* Hero Image */}
-          <div className="relative flex justify-center">
-            <div className="relative rounded-3xl overflow-hidden shadow-xl transform transition-all duration-700 hover:scale-[1.02] group">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1b5e20]/5 to-[#5d4037]/10 z-10 rounded-3xl transition-all duration-700 group-hover:opacity-70"></div>
+          {/* Premium Hero Image */}
+          <div ref={imageRef} className="relative flex justify-center">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 hover:scale-[1.02] group">
+              {/* Premium gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-red-500/10 z-10 rounded-3xl transition-all duration-700 group-hover:opacity-80"></div>
               <img
                 src={Logo}
                 alt="Natural Jaggery Products"
                 className="w-full object-cover aspect-square transition-transform duration-1000 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1b5e20]/10 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent"></div>
               
-              {/* Organic badge */}
-              <div className="absolute top-4 right-4 w-16 h-16 bg-[#f5f0e6] rounded-full flex items-center justify-center border-2 border-white shadow-md transform transition-all duration-300 group-hover:rotate-12">
-                <Leaf className="w-8 h-8 text-[#8d6e63]" />
+              {/* Premium organic badge */}
+              <div className="absolute top-6 right-6 w-20 h-20 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full flex items-center justify-center border-4 border-white shadow-xl transform transition-all duration-300 group-hover:rotate-12 group-hover:scale-110">
+                <Leaf className="w-10 h-10 text-white" />
               </div>
               
-              {/* Floating rating */}
-              <div className="absolute bottom-6 left-6 bg-white backdrop-blur-sm px-4 py-3 rounded-xl shadow-md border border-[#e8f5e9] transform transition-all duration-300 group-hover:-translate-y-2">
-                <div className="flex items-center gap-2">
+              {/* Premium rating card */}
+              <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-xl border border-white/30 transform transition-all duration-300 group-hover:-translate-y-2">
+                <div className="flex items-center gap-3">
                   <div className="flex flex-col">
-                    <span className="text-xs text-[#2e7d32]">Since</span>
-                    <span className="font-bold text-[#1b5e20]">15 Aug 2023</span>
+                    <span className="text-xs text-slate-600 font-medium">Since</span>
+                    <span className="font-bold text-slate-800 text-lg">15 Aug 2023</span>
                   </div>
                   <div className="flex ml-2">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#ffb300] text-[#ffb300]" />
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
                 </div>
               </div>
+              
+              {/* Premium quality indicator */}
+              <div className="absolute bottom-6 right-6 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg transform transition-all duration-300 group-hover:scale-105">
+                Premium Quality
+              </div>
             </div>
             
-            {/* Floating elements around image */}
-            <div className="absolute -bottom-4 -left-4 w-12 h-12 rounded-full bg-[#f5f0e6]/40 blur-md animate-float animation-delay-1000 z-0"></div>
-            <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-[#e8f5e9]/40 blur-md animate-float animation-delay-1500 z-0"></div>
+            {/* Enhanced floating elements */}
+            <div className="absolute -bottom-6 -left-6 w-16 h-16 rounded-full bg-gradient-to-br from-amber-200/40 to-orange-200/40 blur-lg animate-float animation-delay-1000 z-0"></div>
+            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-gradient-to-br from-emerald-200/40 to-green-200/40 blur-lg animate-float animation-delay-1500 z-0"></div>
+            <div className="absolute top-1/2 -left-8 w-12 h-12 rounded-full bg-gradient-to-br from-yellow-200/40 to-amber-200/40 blur-md animate-float animation-delay-2000 z-0"></div>
           </div>
         </div>
       </section>
 
-      {/* Product Carousel Section */}
-      <section ref={nextSectionRef} className="py-16 bg-gradient-to-b from-white to-[#f0f8f0] relative z-10 overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#e8f5e9]/30 blur-3xl"></div>
-        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-[#f5f0e6]/20 blur-3xl"></div>
+      {/* Premium Product Carousel Section */}
+      <section ref={nextSectionRef} className="py-20 bg-gradient-to-br from-slate-50 via-white to-amber-50 relative z-10 overflow-hidden">
+        {/* Premium decorative elements */}
+        <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-gradient-to-br from-amber-200/20 to-orange-200/20 blur-3xl"></div>
+        <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-gradient-to-br from-emerald-200/15 to-green-200/15 blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-yellow-200/10 to-amber-200/10 blur-3xl"></div>
         
         <div className="max-w-7xl mx-auto px-4 relative">
-          <div className="text-center mb-12 relative">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1b5e20] relative inline-block">
-              Our Premium <span className="text-[#5d4037]">Jaggery Products</span>
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-[#2e7d32] to-[#8d6e63] rounded-full"></div>
+          <div className="text-center mb-16 relative">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/10 to-orange-500/10 backdrop-blur-sm border border-amber-200/30 rounded-full px-6 py-2 mb-6">
+              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span className="text-amber-700 font-semibold text-sm">Premium Collection</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 relative inline-block mb-6">
+              Our Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-500 to-red-500">Jaggery Products</span>
             </h2>
-            <p className="mt-4 text-[#2e7d32] max-w-2xl mx-auto">
-              Handcrafted with care using traditional methods for authentic flavor and purity
+            <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mx-auto mb-6"></div>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              Handcrafted with care using traditional methods for authentic flavor and purity. Each product is carefully selected and processed to maintain the highest quality standards.
             </p>
           </div>
 
@@ -220,10 +305,10 @@ const Intro: React.FC = () => {
             centeredSlides
             slidesPerView={'auto'}
             coverflowEffect={{
-              rotate: 5,
-              stretch: -30,
-              depth: 120,
-              modifier: 1,
+              rotate: 8,
+              stretch: -50,
+              depth: 150,
+              modifier: 1.2,
               slideShadows: true,
             }}
             pagination={{ 
@@ -237,75 +322,88 @@ const Intro: React.FC = () => {
               prevEl: '.custom-prev'
             }}
             autoplay={{
-              delay: 3500,
+              delay: 4000,
               disableOnInteraction: false,
             }}
             modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-            className="mySwiper pb-16"
+            className="mySwiper pb-20"
           >
             {products.map((product, index) => (
-              <SwiperSlide key={index} className="max-w-xs bg-gradient-to-b from-white to-[#f8faf8] rounded-2xl shadow-md overflow-hidden border border-[#e8f5e9] transition-all duration-500 hover:shadow-xl hover:z-10">
+              <SwiperSlide key={index} className="max-w-sm bg-gradient-to-b from-white to-slate-50 rounded-3xl shadow-xl overflow-hidden border border-white/20 transition-all duration-500 hover:shadow-2xl hover:z-10 hover:scale-105">
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#1b5e20]/5 to-[#5d4037]/5 rounded-2xl transition-opacity duration-500 group-hover:opacity-30"></div>
+                  {/* Premium gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-amber-500/5 via-orange-500/5 to-red-500/5 rounded-3xl transition-opacity duration-500 group-hover:opacity-40 z-10"></div>
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-72 object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="p-6 relative z-10">
-                    <div className="flex justify-between items-start mb-3">
-                      <h3 className="text-xl font-bold text-[#1b5e20]">{product.name}</h3>
-                      <button className="text-[#8d6e63] hover:text-[#5d4037] transition-colors">
-                        <Heart className="w-5 h-5" />
+                  <div className="p-8 relative z-20">
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-2xl font-bold text-slate-800">{product.name}</h3>
+                      <button className="text-amber-600 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-red-50">
+                        <Heart className="w-6 h-6" />
                       </button>
                     </div>
-                    <p className="text-[#2e7d32] mb-4">{product.description}</p>
-                    <button className="w-full bg-gradient-to-r from-[#2e7d32] to-[#1b5e20] hover:from-[#1b5e20] hover:to-[#0d3e13] text-white py-2 px-4 rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 shadow-sm hover:shadow-md flex items-center justify-center gap-2">
+                    <p className="text-slate-600 mb-6 leading-relaxed">{product.description}</p>
+                    <button className="w-full bg-gradient-to-r from-amber-600 via-orange-500 to-red-500 hover:from-amber-700 hover:via-orange-600 hover:to-red-600 text-white py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 font-semibold">
                       View Details
                       <ArrowDown className="w-4 h-4 transform rotate-90" />
                     </button>
                   </div>
                   
-                  {/* Organic badge */}
-                  <div className="absolute top-3 left-3 bg-[#2e7d32] text-white text-xs font-semibold px-2 py-1 rounded-md flex items-center gap-1">
-                    <Leaf className="w-3 h-3" /> Organic
+                  {/* Premium organic badge */}
+                  <div className="absolute top-4 left-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white text-sm font-bold px-3 py-2 rounded-full flex items-center gap-2 shadow-lg">
+                    <Leaf className="w-4 h-4" /> Organic
+                  </div>
+                  
+                  {/* Premium quality indicator */}
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-slate-800 text-xs font-bold px-3 py-2 rounded-full shadow-lg">
+                    Premium
                   </div>
                 </div>
               </SwiperSlide>
             ))}
             
-            {/* Custom navigation */}
-            <div className="custom-navigation flex justify-center gap-4 mt-8">
-              <button className="custom-prev w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-[#2e7d32] hover:bg-[#e8f5e9] transition-colors">
+            {/* Premium navigation */}
+            <div className="custom-navigation flex justify-center gap-6 mt-12">
+              <button className="custom-prev w-14 h-14 rounded-full bg-white/80 backdrop-blur-sm shadow-xl flex items-center justify-center text-amber-600 hover:bg-amber-50 hover:scale-110 transition-all duration-300 border border-amber-200/30">
                 <ArrowDown className="w-6 h-6 transform rotate-90" />
               </button>
-              <div className="custom-pagination flex items-center gap-2"></div>
-              <button className="custom-next w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-[#2e7d32] hover:bg-[#e8f5e9] transition-colors">
+              <div className="custom-pagination flex items-center gap-3"></div>
+              <button className="custom-next w-14 h-14 rounded-full bg-white/80 backdrop-blur-sm shadow-xl flex items-center justify-center text-amber-600 hover:bg-amber-50 hover:scale-110 transition-all duration-300 border border-amber-200/30">
                 <ArrowDown className="w-6 h-6 transform -rotate-90" />
               </button>
             </div>
           </Swiper>
           
-          {/* Organic certification badge */}
-          <div className="mt-12 flex justify-center">
-            <div className="bg-gradient-to-r from-[#2e7d32] to-[#1b5e20] rounded-full py-3 px-6 inline-flex items-center gap-3 shadow-md transform transition-all duration-300 hover:scale-105">
-              <Leaf className="w-6 h-6 text-[#f5f0e6] animate-pulse" />
-              <span className="text-[#f5f0e6] font-medium">Certified Organic Jaggery</span>
-              <Leaf className="w-6 h-6 text-[#f5f0e6] animate-pulse" />
+          {/* Premium certification badge */}
+          <div className="mt-16 flex justify-center">
+            <div className="bg-gradient-to-r from-emerald-500 to-green-600 rounded-2xl py-4 px-8 inline-flex items-center gap-4 shadow-2xl transform transition-all duration-300 hover:scale-105 border border-emerald-400/30">
+              <div className="flex items-center gap-2">
+                <Leaf className="w-6 h-6 text-white animate-pulse" />
+                <span className="text-white font-bold text-lg">Certified Organic Jaggery</span>
+                <Leaf className="w-6 h-6 text-white animate-pulse" />
+              </div>
+              <div className="w-px h-8 bg-white/30"></div>
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-white" />
+                <span className="text-white/90 font-medium text-sm">FSSAI Approved</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Floating Animation Keyframes */}
+      {/* Premium Animation Keyframes */}
       <style>{`
         @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-          100% { transform: translateY(0px); }
+          0% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-12px) rotate(2deg); }
+          100% { transform: translateY(0px) rotate(0deg); }
         }
         .animate-float {
-          animation: float 4s ease-in-out infinite;
+          animation: float 6s ease-in-out infinite;
         }
         .animation-delay-1000 {
           animation-delay: 1s;
@@ -320,21 +418,44 @@ const Intro: React.FC = () => {
           animation-delay: 3s;
         }
         
-        /* Custom pagination styles */
+        /* Premium pagination styles */
         .custom-bullet {
           display: inline-block;
-          width: 10px;
-          height: 10px;
+          width: 12px;
+          height: 12px;
           border-radius: 50%;
-          background: #e0e0e0;
-          margin: 0 4px;
+          background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+          margin: 0 6px;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .custom-bullet:hover {
+          transform: scale(1.2);
+          background: linear-gradient(135deg, #fbbf24, #f59e0b);
         }
         .custom-bullet-active {
-          width: 30px;
-          border-radius: 5px;
-          background: linear-gradient(to right, #2e7d32, #8d6e63);
+          width: 40px;
+          border-radius: 20px;
+          background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+          transform: scale(1.1);
+        }
+        
+        /* Premium glassmorphism effects */
+        .glass-effect {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Premium hover effects */
+        .premium-hover {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .premium-hover:hover {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
       `}</style>
     </div>
