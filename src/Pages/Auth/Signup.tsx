@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signupUser, clearError } from '../Store/AuthSlice';
-import type { RootState } from '../Store/Store';
-import { 
-  FaEye, 
-  FaEyeSlash, 
-  FaUser, 
+import type { RootState, AppDispatch } from '../Store/Store';
+import {
+  FaEye,
+  FaEyeSlash,
+  FaUser,
   FaEnvelope,
-  FaLock, 
+  FaLock,
   FaLeaf,
   FaArrowLeft,
   FaSpinner,
@@ -28,7 +28,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { isAuthenticated, error, loading } = useSelector((state: RootState) => state.auth);
 
@@ -104,13 +104,13 @@ const Signup = () => {
             <FaArrowLeft className="mr-2" />
             Back to Home
           </Link>
-          
+
           <div className="flex justify-center mb-6">
             <div className="bg-gradient-to-r from-green-700 to-green-600 w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg">
               <FaLeaf className="text-white text-2xl" />
             </div>
           </div>
-          
+
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             Create Account
           </h2>
@@ -196,21 +196,20 @@ const Signup = () => {
                   {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
                 </button>
               </div>
-              
+
               {/* Password Strength Indicator */}
               {formData.password && (
                 <div className="mt-2">
                   <div className="flex items-center justify-between text-sm mb-1">
                     <span className="text-gray-600">Password strength:</span>
-                    <span className={`font-medium ${
-                      passwordStrength <= 2 ? 'text-red-600' : 
-                      passwordStrength <= 3 ? 'text-yellow-600' : 'text-green-600'
-                    }`}>
+                    <span className={`font-medium ${passwordStrength <= 2 ? 'text-red-600' :
+                        passwordStrength <= 3 ? 'text-yellow-600' : 'text-green-600'
+                      }`}>
                       {getPasswordStrengthText(passwordStrength)}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
+                    <div
                       className={`h-2 rounded-full transition-all duration-300 ${getPasswordStrengthColor(passwordStrength)}`}
                       style={{ width: `${(passwordStrength / 5) * 100}%` }}
                     />
@@ -247,7 +246,7 @@ const Signup = () => {
                   {showConfirmPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
                 </button>
               </div>
-              
+
               {/* Password Match Indicator */}
               {formData.confirmPassword && (
                 <div className="mt-2 flex items-center text-sm">

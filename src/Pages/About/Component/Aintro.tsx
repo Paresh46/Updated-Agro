@@ -1,206 +1,310 @@
-import { useEffect, useRef } from 'react';
-import { Leaf, Award, Factory, Users, ArrowRight, Star, CheckCircle, Zap } from 'lucide-react';
-import gsap from 'gsap';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { ArrowRight, Star, Sparkles, Award, TrendingUp } from 'lucide-react';
 
-function Aintro() {
-  // Refs for animation targets
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
+const Aintro: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const pillsRef = useRef<HTMLDivElement[]>([]);
-  const statsRef = useRef<HTMLDivElement[]>([]);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const sublineRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const sliderSectionRef = useRef<HTMLDivElement>(null);
+  const bg1Ref = useRef<HTMLDivElement>(null);
+  const bg2Ref = useRef<HTMLDivElement>(null);
+  const bg3Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Hero heading fade/slide in
-    gsap.fromTo(
-      heroRef.current,
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
-    );
-    // Feature pills stagger
-    gsap.fromTo(
-      pillsRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.7, stagger: 0.15, delay: 0.5, ease: 'power2.out' }
-    );
-    // Stats bar fade/slide in
-    gsap.fromTo(
-      statsRef.current,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, delay: 1, ease: 'power2.out' }
-    );
+    const ctx = gsap.context(() => {
+      // Hero fade-up animations on load
+      const tl = gsap.timeline();
+
+      tl.from(headlineRef.current, {
+        y: 80,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out"
+      })
+        .from(sublineRef.current, {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out"
+        }, "-=0.8")
+        .from(ctaRef.current, {
+          y: 40,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power3.out"
+        }, "-=0.6");
+
+      // Animated Background Gradients - Smooth floating movement
+      gsap.to(bg1Ref.current, {
+        x: 80,
+        y: -60,
+        scale: 1.1,
+        duration: 12,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+
+      gsap.to(bg2Ref.current, {
+        x: -70,
+        y: 50,
+        scale: 0.95,
+        duration: 15,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+
+      gsap.to(bg3Ref.current, {
+        x: 40,
+        y: -40,
+        rotation: 45,
+        scale: 1.15,
+        duration: 18,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+
+      // ScrollTrigger animation for slider section
+      gsap.from(sliderSectionRef.current, {
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sliderSectionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
   }, []);
 
+  const testimonials = [
+    {
+      quote: "The finest organic jaggery we've ever sourced. Our international clients love the authentic quality.",
+      author: "Sarah Johnson",
+      role: "Head of Procurement, NaturalLife UK",
+      rating: 5
+    },
+    {
+      quote: "Exceptional purity and taste. Anand Agro's commitment to sustainability sets them apart.",
+      author: "Michael Chen",
+      role: "CEO, GreenTrade International",
+      rating: 5
+    },
+    {
+      quote: "A trusted partner for premium jaggery. Their consistent quality makes our supply chain reliable.",
+      author: "Emma Williams",
+      role: "Sourcing Director, OrganicFirst USA",
+      rating: 5
+    },
+    {
+      quote: "Outstanding product quality and professional service. Perfect for our health-conscious market.",
+      author: "David Martinez",
+      role: "Import Manager, HealthyChoice Europe",
+      rating: 5
+    }
+  ];
+
+  const features = [
+    { icon: Star, label: "Premium Quality", value: "100%" },
+    { icon: Award, label: "Export Grade", value: "Certified" },
+    { icon: TrendingUp, label: "Years Experience", value: "25+" }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+    <div ref={heroRef} className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-amber-50/30 relative overflow-hidden">
+
+      {/* Subtle animated background elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div ref={bg1Ref} className="absolute top-20 right-10 w-96 h-96 bg-gradient-to-br from-amber-200/20 to-orange-200/10 rounded-full blur-3xl"></div>
+        <div ref={bg2Ref} className="absolute bottom-20 left-10 w-80 h-80 bg-gradient-to-br from-emerald-200/15 to-green-200/10 rounded-full blur-3xl"></div>
+        <div ref={bg3Ref} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-blue-200/10 to-indigo-200/10 rounded-full blur-3xl"></div>
+      </div>
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-16 lg:py-24">
-        {/* Decorative Background */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-gradient-to-br from-amber-200/30 to-orange-200/30 blur-3xl animate-pulse" />
-          <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-gradient-to-br from-yellow-200/30 to-amber-200/30 blur-3xl animate-pulse delay-1000" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-amber-100/20 to-orange-100/20 blur-3xl" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 flex flex-col lg:flex-row items-center gap-16">
-          {/* Left: Content */}
-          <div className="flex-1 space-y-8" ref={heroRef}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 rounded-full border border-amber-200 shadow animate-fade-in">
-              <Star className="w-4 h-4 text-amber-500 fill-current" />
-              <span className="text-sm font-medium text-amber-700">India's Premium Jaggery Brand</span>
+      <section className="relative z-10 min-h-screen flex items-center justify-center px-6 md:px-12 py-20">
+        <div className="max-w-7xl mx-auto w-full">
+
+          {/* Centered Hero Content */}
+          <div className="text-center max-w-5xl mx-auto space-y-8">
+
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-5 py-2 bg-white/80 backdrop-blur-sm border border-amber-200/50 rounded-full shadow-sm">
+              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span className="text-sm font-semibold tracking-wide text-amber-700 uppercase">Premium Organic Jaggery</span>
             </div>
-            <h2 className="text-lg font-semibold text-amber-600 animate-fade-in-delay-1">Nature's Sweetness Perfected</h2>
-            <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight animate-fade-in-delay-2">
-              Pure <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Handcrafted</span> Jaggery
+
+            {/* Headline */}
+            <h1 ref={headlineRef} className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-slate-900">
+              Crafting Nature's <br />
+              <span className="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 bg-clip-text text-transparent">Finest Sweetness</span>
             </h1>
-            <p className="text-xl text-gray-600 leading-relaxed animate-fade-in-delay-3 max-w-xl">
-              Anand Agro Industry crafts premium jaggery using traditional methods passed down through generations. Our chemical-free process preserves natural nutrients while supporting sustainable farming.
+
+            {/* Subheadline */}
+            <p ref={sublineRef} className="text-xl md:text-2xl text-slate-600 leading-relaxed max-w-3xl mx-auto font-light">
+              Experience the pinnacle of organic purity. Handcrafted using traditional methods,
+              trusted by premium brands across the globe.
             </p>
-            <div className="flex flex-wrap gap-3 animate-fade-in-delay-4">
-              {[{ icon: CheckCircle, text: "100% Organic" }, { icon: Zap, text: "Chemical Free" }, { icon: Award, text: "Premium Quality" }].map((item, idx) => (
-                <div
-                  key={idx}
-                  ref={el => { if (el) pillsRef.current[idx] = el; }}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/70 rounded-full border border-amber-100 shadow-sm hover:shadow-md transition-all"
-                >
-                  <item.icon className="w-4 h-4 text-amber-600" />
-                  <span className="text-sm font-medium text-gray-700">{item.text}</span>
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-4 pt-2 animate-fade-in-delay-5">
-              <button className="group flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-transform hover:-translate-y-1 hover:scale-105">
+
+            {/* CTA Buttons */}
+            <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+              <button className="group px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex items-center gap-3">
                 Explore Products
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="px-8 py-3 bg-white/90 text-gray-700 border border-gray-200 rounded-xl font-medium text-lg shadow hover:shadow-lg transition hover:bg-white">
-                Learn Process
+              <button className="px-8 py-4 bg-white/80 backdrop-blur-sm text-slate-700 border border-slate-200 rounded-full font-semibold text-lg shadow hover:shadow-lg transition-all duration-300 hover:bg-white">
+                Learn More
               </button>
             </div>
-          </div>
-          {/* Right: Visual Card */}
-          <div className="flex-1 flex flex-col items-center relative animate-slide-up-delay">
-            <div className="relative bg-white/90 rounded-3xl p-8 shadow-2xl border border-white/20 w-full max-w-md hover:scale-105 transition-transform duration-700">
-              <div className="flex flex-col items-center">
-                <div className="w-20 h-20 mb-4 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-                  <Leaf className="w-10 h-10 text-white" />
+
+            {/* Feature Pills */}
+            <div className="flex flex-wrap gap-6 justify-center items-center pt-8">
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 px-6 py-3 bg-white/60 backdrop-blur-sm rounded-full border border-slate-200/50 shadow-sm hover:shadow-md transition-all"
+                >
+                  <feature.icon className="w-5 h-5 text-amber-600" />
+                  <div className="text-left">
+                    <div className="text-xs text-slate-500 uppercase tracking-wider">{feature.label}</div>
+                    <div className="text-sm font-bold text-slate-800">{feature.value}</div>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800">Anand Agro</h3>
-                <p className="text-amber-600 font-medium">Premium Jaggery</p>
-              </div>
-              <div className="absolute -top-4 -right-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white p-3 rounded-full shadow-lg animate-bounce-slow">
-                <Award className="w-6 h-6" />
-              </div>
-              <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3 px-6 rounded-full text-center font-semibold shadow-lg mt-6">
-                Certified Organic
-              </div>
+              ))}
             </div>
-            {/* Floating Feature Cards */}
-            <div className="absolute -left-8 top-16 bg-white/95 p-4 rounded-2xl shadow-xl border border-white/20 animate-float">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <Leaf className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-800 text-sm">100% Natural</p>
-                  <p className="text-xs text-gray-600">No chemicals</p>
-                </div>
-              </div>
-            </div>
-            <div className="absolute -right-8 bottom-32 bg-white/95 p-4 rounded-2xl shadow-xl border border-white/20 animate-float-delay">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Factory className="w-5 h-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-800 text-sm">Modern Processing</p>
-                  <p className="text-xs text-gray-600">Hygienic facility</p>
-                </div>
-              </div>
-            </div>
-            <div className="absolute -left-6 bottom-8 bg-white/95 p-4 rounded-2xl shadow-xl border border-white/20 animate-float">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Users className="w-5 h-5 text-purple-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-800 text-sm">Fair Trade</p>
-                  <p className="text-xs text-gray-600">Supporting farmers</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Stats Bar */}
-        <div className="relative z-20 max-w-5xl mx-auto mt-16 mb-0">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-white/90 rounded-2xl shadow-lg py-6 px-4 border border-amber-100">
-            {[
-              { value: "25+", label: "Years Experience" },
-              { value: "500+", label: "Partner Farmers" },
-              { value: "99%", label: "Purity Rate" },
-              { value: "10k+", label: "Happy Customers" }
-            ].map((stat, idx) => (
-              <div
-                key={idx}
-                ref={el => { if (el) statsRef.current[idx] = el; }}
-                className="text-center"
-              >
-                <div className="text-3xl font-bold text-amber-600">{stat.value}</div>
-                <div className="text-sm text-gray-600 mt-1">{stat.label}</div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* Brand Gallery removed per request */}
+      {/* Premium Swiper Slider Section */}
+      <section ref={sliderSectionRef} className="relative z-10 px-6 md:px-12 py-24 bg-white/40 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto">
 
-      {/* Features Section */}
-      <section className="py-20 bg-white/60 backdrop-blur-sm border-t border-amber-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          {/* Section Header */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Our Jaggery?</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Experience the perfect blend of tradition and innovation in every block of our premium jaggery
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-amber-200/50 rounded-full shadow-sm mb-6">
+              <Star className="w-4 h-4 text-amber-600 fill-amber-600" />
+              <span className="text-sm font-semibold tracking-wide text-amber-700 uppercase">Trusted Globally</span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              What Our Partners Say
+            </h2>
+
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto font-light">
+              Hear from international businesses who trust our premium organic jaggery.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: Leaf,
-                title: "100% Natural & Organic",
-                description: "Chemical-free jaggery made from pure sugarcane juice using traditional methods",
-                color: "from-green-500 to-emerald-500"
-              },
-              {
-                icon: Award,
-                title: "Premium Quality",
-                description: "Hygienic processing with FDA-approved facilities ensuring highest standards",
-                color: "from-blue-500 to-cyan-500"
-              },
-              {
-                icon: Factory,
-                title: "Sustainable Farming",
-                description: "Supporting eco-friendly agricultural practices and sustainable development",
-                color: "from-purple-500 to-indigo-500"
-              },
-              {
-                icon: Users,
-                title: "Community Focused",
-                description: "Direct farmer partnerships ensuring fair prices and community development",
-                color: "from-amber-500 to-orange-500"
-              }
-            ].map((feature, idx) => (
-              <div key={idx} className="group bg-white/90 p-8 rounded-3xl shadow-lg border border-white/20 hover:shadow-2xl transition-all hover:-translate-y-2">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                  <feature.icon className="w-8 h-8 text-white" />
+
+          {/* Swiper Testimonial Slider */}
+          <Swiper
+            modules={[Autoplay, Pagination, Navigation]}
+            spaceBetween={30}
+            slidesPerView={1}
+            breakpoints={{
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 }
+            }}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
+            navigation={true}
+            loop={true}
+            className="premium-testimonial-swiper"
+          >
+            {testimonials.map((testimonial, index) => (
+              <SwiperSlide key={index}>
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-500 h-full flex flex-col">
+
+                  {/* Star Rating */}
+                  <div className="flex gap-1 mb-6">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 text-amber-500 fill-amber-500" />
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <blockquote className="text-slate-700 text-lg leading-relaxed mb-8 flex-grow font-light italic">
+                    "{testimonial.quote}"
+                  </blockquote>
+
+                  {/* Author Info */}
+                  <div className="border-t border-slate-200/50 pt-6">
+                    <div className="font-semibold text-slate-900 text-lg">{testimonial.author}</div>
+                    <div className="text-sm text-slate-500 mt-1">{testimonial.role}</div>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         </div>
       </section>
+
+      {/* Add custom Swiper styles */}
+      <style>{`
+        .premium-testimonial-swiper .swiper-button-next,
+        .premium-testimonial-swiper .swiper-button-prev {
+          color: #d97706;
+          background: white;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+        }
+
+        .premium-testimonial-swiper .swiper-button-next:hover,
+        .premium-testimonial-swiper .swiper-button-prev:hover {
+          background: #d97706;
+          color: white;
+          transform: scale(1.1);
+        }
+
+        .premium-testimonial-swiper .swiper-button-next::after,
+        .premium-testimonial-swiper .swiper-button-prev::after {
+          font-size: 20px;
+          font-weight: bold;
+        }
+
+        .premium-testimonial-swiper .swiper-pagination-bullet {
+          background: #d97706;
+          opacity: 0.3;
+          width: 12px;
+          height: 12px;
+        }
+
+        .premium-testimonial-swiper .swiper-pagination-bullet-active {
+          opacity: 1;
+          width: 32px;
+          border-radius: 6px;
+        }
+      `}</style>
     </div>
   );
-}
+};
 
 export default Aintro;

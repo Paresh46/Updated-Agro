@@ -7,13 +7,11 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   // 🔍 Check login status on page load
   useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    setIsLoggedIn(loggedIn);
 
     // Optional: redirect if already logged in
     if (loggedIn) {
@@ -40,7 +38,6 @@ const Login = () => {
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('token', res.data.token); // if you receive token
 
-      setIsLoggedIn(true);
       navigate('/payment'); // redirect to payment or dashboard
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");

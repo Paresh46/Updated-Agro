@@ -2,23 +2,19 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import type { RootState } from '../Store/Store';
-import { 
-  FaShoppingCart, 
-  FaTrash, 
-  FaPlus, 
-  FaMinus, 
+import {
+  FaShoppingCart,
+  FaTrash,
+  FaPlus,
+  FaMinus,
   FaArrowLeft,
   FaCreditCard,
   FaTruck,
   FaShieldAlt,
   FaLeaf,
   FaUser,
-  FaMapMarkerAlt,
-  FaPhone,
-  FaEnvelope,
   FaLock,
   FaCheckCircle,
-  FaEdit,
   FaChevronRight,
   FaChevronLeft
 } from 'react-icons/fa';
@@ -26,7 +22,7 @@ import ICart from '../Cart/Component/ICart';
 
 const Cart: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  const [quantities, setQuantities] = useState<{[key: string]: number}>({});
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
   const [currentStep, setCurrentStep] = useState<'cart' | 'shipping' | 'payment' | 'review'>('cart');
   const [shippingInfo, setShippingInfo] = useState({
     firstName: '',
@@ -40,14 +36,13 @@ const Cart: React.FC = () => {
     country: 'India'
   });
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'upi' | 'cod'>('card');
-  const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
-  
+
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal > 500 ? 0 : 50;
   const total = subtotal + shipping;
 
-  const updateQuantity = (id: string, newQuantity: number) => {
+  const updateQuantity = (id: number, newQuantity: number) => {
     if (newQuantity < 1) return;
     setQuantities(prev => ({ ...prev, [id]: newQuantity }));
   };
@@ -88,21 +83,19 @@ const Cart: React.FC = () => {
                 const isActive = currentStep === step.key;
                 const isCompleted = ['cart', 'shipping', 'payment', 'review'].indexOf(currentStep) > index;
                 const StepIcon = step.icon;
-                
-  return (
+
+                return (
                   <div key={step.key} className="flex items-center">
-                    <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 ${
-                      isActive 
-                        ? 'bg-emerald-600 border-emerald-600 text-white' 
-                        : isCompleted 
+                    <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 ${isActive
+                      ? 'bg-emerald-600 border-emerald-600 text-white'
+                      : isCompleted
                         ? 'bg-emerald-100 border-emerald-600 text-emerald-600'
                         : 'bg-white border-slate-300 text-slate-400'
-                    }`}>
+                      }`}>
                       {isCompleted ? <FaCheckCircle className="w-5 h-5" /> : <StepIcon className="w-5 h-5" />}
                     </div>
-                    <span className={`ml-2 text-sm font-medium ${
-                      isActive ? 'text-emerald-600' : isCompleted ? 'text-emerald-600' : 'text-slate-500'
-                    }`}>
+                    <span className={`ml-2 text-sm font-medium ${isActive ? 'text-emerald-600' : isCompleted ? 'text-emerald-600' : 'text-slate-500'
+                      }`}>
                       {step.label}
                     </span>
                     {index < 3 && (
@@ -151,14 +144,14 @@ const Cart: React.FC = () => {
                 Discover our premium collection of organic jaggery products and add them to your cart
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link 
+                <Link
                   to="/products"
                   className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-green-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-emerald-700 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <FaLeaf className="w-5 h-5" />
                   Browse Products
                 </Link>
-                <Link 
+                <Link
                   to="/"
                   className="inline-flex items-center gap-2 bg-white text-slate-700 border border-slate-300 px-8 py-4 rounded-xl font-semibold hover:bg-slate-50 transition-all duration-300"
                 >
@@ -182,7 +175,7 @@ const Cart: React.FC = () => {
                             <FaLeaf className="w-8 h-8 text-amber-600" />
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-semibold text-slate-900">{item.name}</h3>
+                            <h3 className="font-semibold text-slate-900">{item.title}</h3>
                             <p className="text-sm text-slate-600">Premium Organic Jaggery</p>
                             <p className="text-lg font-bold text-emerald-600">₹{item.price}</p>
                           </div>
@@ -311,26 +304,23 @@ const Cart: React.FC = () => {
                       ].map((method) => (
                         <div
                           key={method.id}
-                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                            paymentMethod === method.id
-                              ? 'border-emerald-500 bg-emerald-50'
-                              : 'border-slate-200 hover:border-slate-300'
-                          }`}
+                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === method.id
+                            ? 'border-emerald-500 bg-emerald-50'
+                            : 'border-slate-200 hover:border-slate-300'
+                            }`}
                           onClick={() => setPaymentMethod(method.id as any)}
                         >
                           <div className="flex items-center gap-4">
-                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                              paymentMethod === method.id ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
-                            }`}>
+                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${paymentMethod === method.id ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
+                              }`}>
                               <method.icon className="w-6 h-6" />
                             </div>
                             <div className="flex-1">
                               <h3 className="font-semibold text-slate-900">{method.label}</h3>
                               <p className="text-sm text-slate-600">{method.desc}</p>
                             </div>
-                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                              paymentMethod === method.id ? 'border-emerald-500 bg-emerald-500' : 'border-slate-300'
-                            }`}>
+                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === method.id ? 'border-emerald-500 bg-emerald-500' : 'border-slate-300'
+                              }`}>
                               {paymentMethod === method.id && <FaCheckCircle className="w-4 h-4 text-white" />}
                             </div>
                           </div>
@@ -359,12 +349,12 @@ const Cart: React.FC = () => {
                           <p className="capitalize">{paymentMethod.replace('_', ' ')}</p>
                         </div>
                       </div>
-      <div>
+                      <div>
                         <h3 className="font-semibold text-slate-900 mb-3">Order Items</h3>
                         <div className="space-y-2">
                           {cartItems.map((item) => (
                             <div key={item.id} className="flex justify-between items-center py-2 border-b border-slate-100">
-                              <span className="text-slate-700">{item.name} x {item.quantity}</span>
+                              <span className="text-slate-700">{item.title} x {item.quantity}</span>
                               <span className="font-semibold">₹{item.price * item.quantity}</span>
                             </div>
                           ))}
@@ -379,7 +369,7 @@ const Cart: React.FC = () => {
               <div className="lg:col-span-1">
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200 shadow-sm p-6 sticky top-6">
                   <h2 className="text-xl font-bold text-slate-900 mb-6">Order Summary</h2>
-                  
+
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-slate-600">Subtotal ({totalItems} items)</span>
@@ -407,7 +397,7 @@ const Cart: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="mt-6 space-y-3">
                     <div className="flex items-center gap-2 text-sm text-slate-600">
                       <FaTruck className="w-4 h-4 text-emerald-600" />
@@ -434,15 +424,15 @@ const Cart: React.FC = () => {
                         Previous Step
                       </button>
                     )}
-                    
+
                     {currentStep !== 'review' ? (
                       <button
                         onClick={nextStep}
                         className="w-full bg-gradient-to-r from-emerald-600 to-green-600 text-white py-3 rounded-xl font-semibold hover:from-emerald-700 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                       >
-                        {currentStep === 'cart' ? 'Proceed to Shipping' : 
-                         currentStep === 'shipping' ? 'Continue to Payment' : 
-                         'Review Order'}
+                        {currentStep === 'cart' ? 'Proceed to Shipping' :
+                          currentStep === 'shipping' ? 'Continue to Payment' :
+                            'Review Order'}
                         <FaChevronRight className="w-4 h-4" />
                       </button>
                     ) : (
@@ -463,7 +453,7 @@ const Cart: React.FC = () => {
       {cartItems.length > 0 && currentStep === 'cart' && (
         <section className="py-8 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto text-center">
-            <Link 
+            <Link
               to="/products"
               className="inline-flex items-center gap-2 text-slate-600 hover:text-emerald-600 transition-colors"
             >
@@ -475,8 +465,8 @@ const Cart: React.FC = () => {
       )}
 
       {/* Keep original ICart component for functionality */}
-        <ICart />
-      </div>
+      <ICart />
+    </div>
   );
 };
 

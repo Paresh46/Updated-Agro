@@ -3,12 +3,12 @@ import gsap from 'gsap';
 import WhatsappIcon from "../Whatsapp/Assets/download-removebg-preview (1).png";
 
 const WhatsApp = () => {
-  const buttonRef = useRef(null);
-  const tooltipRef = useRef(null);
-  const pulseRef = useRef(null);
-  const containerRef = useRef(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const pulseRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const phoneNumber = "7820893712";
   const message = "Hello! I'd like to get more information.";
 
@@ -17,6 +17,8 @@ const WhatsApp = () => {
     const tooltip = tooltipRef.current;
     const pulse = pulseRef.current;
     const container = containerRef.current;
+
+    if (!button || !tooltip || !pulse || !container) return;
 
     // Master timeline
     const masterTL = gsap.timeline({ paused: true });
@@ -82,6 +84,8 @@ const WhatsApp = () => {
   }, []);
 
   const handleClick = () => {
+    if (!buttonRef.current) return;
+
     // Click animation sequence
     const clickTL = gsap.timeline();
     clickTL
@@ -106,7 +110,7 @@ const WhatsApp = () => {
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-    
+
     setTimeout(() => {
       window.open(whatsappUrl, '_blank');
     }, 600);

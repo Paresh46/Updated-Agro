@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import React, { useState, type FormEvent } from 'react';
 
 type ProductType = 'liquid-jaggery' | 'jaggery-block' | 'granulated-jaggery' | '';
 
@@ -12,7 +12,7 @@ interface FormData {
   message: string;
 }
 
- function JaggeryQueryForm() {
+function JaggeryQueryForm() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -37,7 +37,7 @@ interface FormData {
     // Here you would typically send the data to your backend
     console.log('Form submitted:', formData);
     setSubmitted(true);
-    
+
     // Reset form after submission
     setTimeout(() => {
       setFormData({
@@ -202,4 +202,4 @@ interface FormData {
 }
 
 
-export default  JaggeryQueryForm
+export default JaggeryQueryForm

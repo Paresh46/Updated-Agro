@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, updateProfile, changePassword, logout } from '../Store/AuthSlice';
-import type { RootState } from '../Store/Store';
-import { 
-  FaUser, 
-  FaEnvelope, 
-  FaLock, 
-  FaEdit, 
-  FaSave, 
+import type { RootState, AppDispatch } from '../Store/Store';
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaEdit,
+  FaSave,
   FaTimes,
   FaLeaf,
   FaSignOutAlt,
@@ -17,9 +17,7 @@ import {
   FaCheck,
   FaHistory,
   FaHeart,
-  FaShoppingCart,
   FaMapMarkerAlt,
-  FaPhone,
   FaShieldAlt
 } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -42,7 +40,7 @@ const Account = () => {
     confirmPassword: '',
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { user, loading, error } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
@@ -160,11 +158,10 @@ const Account = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`w-full flex items-center px-4 py-3 rounded-xl text-left transition-all duration-200 ${
-                        activeTab === tab.id
-                          ? 'bg-green-100 text-green-700 border-l-4 border-green-500'
-                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                      }`}
+                      className={`w-full flex items-center px-4 py-3 rounded-xl text-left transition-all duration-200 ${activeTab === tab.id
+                        ? 'bg-green-100 text-green-700 border-l-4 border-green-500'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        }`}
                     >
                       <Icon className="h-5 w-5 mr-3" />
                       {tab.name}

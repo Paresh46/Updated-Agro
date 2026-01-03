@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  FaFacebookF, 
-  FaInstagram, 
-  FaTwitter, 
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
   FaWhatsapp,
   FaLeaf,
   FaCertificate,
@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
     <footer ref={footerRef} className="relative bg-gradient-to-br from-amber-950 via-amber-900 to-amber-950 text-amber-50">
       <div className="absolute w-full h-20 -mt-20 overflow-hidden">
         {[...Array(8)].map((_, i) => (
-          <div 
+          <div
             key={i}
             className="absolute rounded-full bg-amber-600/30"
             style={{
@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-14 sm:py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div ref={el => columnsRef.current[0] = el} className="text-center md:text-left">
+          <div ref={el => { columnsRef.current[0] = el }} className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start mb-4">
               <div className="relative">
                 <FaLeaf className="text-3xl text-amber-300 mr-2 z-10 relative" />
@@ -139,7 +139,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          <div ref={el => columnsRef.current[1] = el} className="text-center md:text-left">
+          <div ref={el => { columnsRef.current[1] = el }} className="text-center md:text-left">
             <h3 className="text-lg font-semibold text-amber-200 mb-4">Quick Links</h3>
             <nav className="grid grid-cols-1 gap-3" aria-label="Footer navigation">
               {navigationLinks.map((link, index) => (
@@ -151,13 +151,13 @@ const Footer: React.FC = () => {
             </nav>
           </div>
 
-          <div ref={el => columnsRef.current[2] = el} className="text-center">
+          <div ref={el => { columnsRef.current[2] = el }} className="text-center">
             <h3 className="text-lg font-semibold text-amber-200 mb-4">Our Quality Promise</h3>
             <div className="grid grid-cols-2 gap-4">
               {qualityBadges.map((badge, index) => (
-                <div 
+                <div
                   key={index}
-                  ref={el => qualityBadgesRef.current[index] = el}
+                  ref={el => { qualityBadgesRef.current[index] = el }}
                   className={`${badge.color} rounded-lg p-3 flex flex-col items-center justify-center shadow-lg`}
                 >
                   <div className="text-amber-50 mb-1">
@@ -169,7 +169,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          <div ref={el => columnsRef.current[3] = el} className="text-center md:text-right">
+          <div ref={el => { columnsRef.current[3] = el }} className="text-center md:text-right">
             <h3 className="text-lg font-semibold text-amber-200 mb-4">Connect With Us</h3>
             <div className="flex justify-center md:justify-end space-x-4">
               {socialIcons.map((social, index) => (
@@ -194,7 +194,7 @@ const Footer: React.FC = () => {
 
         {/* Trust Row */}
         <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[ 'Organic Certified', 'FSSAI Approved', 'Sustainable Farming', 'ISO 22000' ].map((item, i) => (
+          {['Organic Certified', 'FSSAI Approved', 'Sustainable Farming', 'ISO 22000'].map((item, i) => (
             <div key={i} className="text-center text-amber-200/90 text-sm bg-amber-900/40 border border-amber-700/40 rounded-xl py-3">
               {item}
             </div>
